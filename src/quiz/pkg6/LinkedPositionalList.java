@@ -11,10 +11,6 @@ package quiz.pkg6;
  */
 public class LinkedPositionalList<E> implements PositionalList<E> {
 
-    
-
-    
-
     private class Node<E> implements Position<E> {
 
         private E e;
@@ -168,17 +164,19 @@ public class LinkedPositionalList<E> implements PositionalList<E> {
     @Override
     public E moveToFront(Position<E> p, E e) {
         Node<E> node = validate(p);
-        node.getPrev().setNext(node.getNext());
-        node.getNext().setPrev(node.getPrev());
-        size--;
-        E temp = p.getElement();
-        node.setNext(null);
-        node.setPrev(null);
-        node.setElement(null);
-        
+        if (node.getNext() != null) {
+            node.getPrev().setNext(node.getNext());
+            node.getNext().setPrev(node.getPrev());
+            size--;
+            E temp = p.getElement();
+            node.setNext(null);
+            node.setPrev(null);
+            node.setElement(null);
+        }
+
         return (E) addBetween(header, e, header.getNext());
     }
-    
+
     @Override
     public E set(Position<E> p, E e) throws IllegalArgumentException {
         Node<E> node = validate(p);
